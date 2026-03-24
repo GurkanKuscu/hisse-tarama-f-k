@@ -1,0 +1,37 @@
+name: BIST Günlük Tarama
+
+on:
+  schedule:
+    - cron: '30 18 * * 1-5'
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  tarama:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python Kurulumu
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Bağımlılıkları Kur
+        run: pip install -r requirements.txt
+
+      - name: Taramayı Çalıştır
+        run: python screener.py
+
+      - name: Sonuçları Commit Et
+        run: |
+          git config user.name "BIST Bot"
+          git config user.email "bot@bist-screener"
+          git add docs/
+          git diff --staged --quiet || git commit -m "📊 Günlük tarama: $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
