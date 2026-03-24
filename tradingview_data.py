@@ -7,65 +7,53 @@ TradingView Screener API + TA API ile BIST hisselerinin:
   - Teknik analiz sinyalleri (BUY/SELL/NEUTRAL)
   - Temel çarpanları (F/K, PD/DD, vb.)
 verilerini toplu olarak çeker.
-
-Kütüphaneler:
-  - tradingview-screener: Toplu veri (temel + analist)
-  - tradingview-ta: Teknik analiz önerileri
 """
 
 import time
-import json
 import requests
-
-# ── TradingView Screener API (doğrudan HTTP) ─────────────────────────────────
-# tradingview-screener kütüphanesi yoksa bile çalışabilsin diye
-# ham API çağrısı da dahil edildi.
 
 TV_SCREENER_URL = "https://scanner.tradingview.com/turkey/scan"
 
-# İstediğimiz alanlar
 TV_FIELDS = [
-    "name",                          # Ticker (örn: THYAO)
-    "description",                   # Şirket adı
-    "close",                         # Son fiyat
-    "change",                        # Günlük değişim %
-    "volume",                        # Hacim
-    "market_cap_basic",              # Piyasa değeri
-    # Çarpanlar
-    "price_earnings_ttm",            # F/K (TTM)
-    "price_book_fq",                 # PD/DD
-    "enterprise_value_ebitda_ttm",   # FD/FAVÖK
-    "price_revenue_ttm",             # FD/Satışlar (yaklaşık)
-    "enterprise_value_fq",           # Firma değeri
-    "dividend_yield_recent",         # Temettü verimi
-    # Analist verileri
-    "analyst_rating",                # Konsensüs öneri (1=Strong Buy → 5=Strong Sell)
-    "analyst_rating_recommendation", # Öneri string
-    "number_of_analysts",            # Analist sayısı
-    "target_price",                  # Konsensüs hedef fiyat
-    # Teknik
-    "Recommend.All",                 # Genel teknik öneri
-    "Recommend.MA",                  # Hareketli ortalama önerisi
-    "Recommend.Other",               # Osilatör önerisi
-    # Performans
-    "Perf.W",                        # Haftalık performans
-    "Perf.1M",                       # Aylık performans
-    "Perf.3M",                       # 3 aylık performans
+    "name",
+    "description",
+    "close",
+    "change",
+    "volume",
+    "market_cap_basic",
+    "price_earnings_ttm",
+    "price_book_fq",
+    "enterprise_value_ebitda_ttm",
+    "price_revenue_ttm",
+    "enterprise_value_fq",
+    "dividend_yield_recent",
+    "analyst_rating",
+    "analyst_rating_recommendation",
+    "number_of_analysts",
+    "target_price",
+    "Recommend.All",
+    "Recommend.MA",
+    "Recommend.Other",
+    "Perf.W",
+    "Perf.1M",
+    "Perf.3M",
 ]
 
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                  "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     "Content-Type": "application/json",
+    "Origin": "https://www.tradingview.com",
+    "Referer": "https://www.tradingview.com/",
 }
 
 
-def tv_screener_toplu_cek(min_piyasa_degeri=0):
+def tv_screener_toplu_cek():
     """
     TradingView Screener API ile BIST'teki tüm hisselerin
     temel + analist + teknik verilerini toplu çeker.
-    
-    Tek bir HTTP POST isteğiyle ~500 hisse gelir.
     """
+    # v2 payload formatı (2024 sonrası geçerli)
     payload = {
         "columns": TV_FIELDS,
         "filter": [
@@ -74,50 +62,70 @@ def tv_screener_toplu_cek(min_piyasa_degeri=0):
                 "operation": "equal",
                 "right": True,
             },
+            {
+                "left": "type",
+                "operation": "in_range",
+                "right": ["stock", "dr", "fund"],
+            },
         ],
         "options": {
             "lang": "tr",
         },
-        "range": [0, 600],  # Max 600 hisse
+        "range": [0, 600],
         "sort": {
             "sortBy": "market_cap_basic",
             "sortOrder": "desc",
         },
-        "markets": ["turkey"],
-        "symbols": {"query": {"types": ["stock"]}},
+        "symbols": {},
     }
 
-    if min_piyasa_degeri > 0:
-        payload["filter"].append({
-            "left": "market_cap_basic",
-            "operation": "greater",
-            "right": min_piyasa_degeri,
-        })
+    # Önce yeni format dene
+    for attempt, pload in enumerate([payload, _payload_v1()], 1):
+        try:
+            r = requests.post(
+                TV_SCREENER_URL,
+                json=pload,
+                headers=HEADERS,
+                timeout=30,
+            )
+            if r.status_code == 200:
+                data = r.json()
+                if data and "data" in data and len(data["data"]) > 0:
+                    print(f"  [TV] Screener API başarılı (format {attempt})")
+                    return data
+                else:
+                    print(f"  [TV] Format {attempt}: Boş yanıt")
+            else:
+                print(f"  [TV] Screener API hata: HTTP {r.status_code}")
+        except Exception as e:
+            print(f"  [TV] Screener API hata: {e}")
 
-    try:
-        r = requests.post(
-            TV_SCREENER_URL,
-            json=payload,
-            headers=HEADERS,
-            timeout=30,
-        )
-        if r.status_code == 200:
-            data = r.json()
-            return data
-        else:
-            print(f"  [TV] Screener API hata: HTTP {r.status_code}")
-            return None
-    except Exception as e:
-        print(f"  [TV] Screener API hata: {e}")
-        return None
+    return None
+
+
+def _payload_v1():
+    """Eski TradingView payload formatı (fallback)."""
+    return {
+        "columns": TV_FIELDS,
+        "filter": [
+            {
+                "left": "is_primary",
+                "operation": "equal",
+                "right": True,
+            },
+        ],
+        "markets": ["turkey"],
+        "options": {"lang": "tr"},
+        "range": [0, 600],
+        "sort": {"sortBy": "market_cap_basic", "sortOrder": "desc"},
+        "symbols": {"query": {"types": ["stock"]}},
+    }
 
 
 def tv_veri_parse(raw_data):
     """
     TradingView Screener API yanıtını standart formata çevirir.
-    
-    Returns:
-        dict: {ticker: {tüm_veriler}}
+    Returns: dict {ticker: {tüm_veriler}}
     """
     if not raw_data or "data" not in raw_data:
         return {}
@@ -126,10 +134,13 @@ def tv_veri_parse(raw_data):
 
     for item in raw_data["data"]:
         d = item.get("d", [])
-        if not d or len(d) < len(TV_FIELDS):
+        if not d:
             continue
 
-        # Field listesiyle eşleştir
+        # Eksik field'ları None ile tamamla
+        while len(d) < len(TV_FIELDS):
+            d.append(None)
+
         veri = dict(zip(TV_FIELDS, d))
 
         ticker = veri.get("name", "")
@@ -143,29 +154,25 @@ def tv_veri_parse(raw_data):
             "degisim": _safe_float(veri.get("change")),
             "hacim": _safe_float(veri.get("volume")),
             "piyasa_degeri": _safe_float(veri.get("market_cap_basic")),
-            # Çarpanlar
             "fk": _safe_float(veri.get("price_earnings_ttm")),
             "pddd": _safe_float(veri.get("price_book_fq")),
             "fd_favok": _safe_float(veri.get("enterprise_value_ebitda_ttm")),
             "fd_satis": _safe_float(veri.get("price_revenue_ttm")),
             "firma_degeri": _safe_float(veri.get("enterprise_value_fq")),
             "temettü_verimi": _safe_float(veri.get("dividend_yield_recent")),
-            # Analist verileri
             "analist_rating": _safe_float(veri.get("analyst_rating")),
             "analist_oneri_str": veri.get("analyst_rating_recommendation"),
             "analist_sayisi": _safe_int(veri.get("number_of_analysts")),
             "hedef_fiyat": _safe_float(veri.get("target_price")),
-            # Teknik sinyaller (-1 ile +1 arası; >0.1=BUY, <-0.1=SELL)
             "teknik_genel": _safe_float(veri.get("Recommend.All")),
             "teknik_ma": _safe_float(veri.get("Recommend.MA")),
             "teknik_osc": _safe_float(veri.get("Recommend.Other")),
-            # Performans
             "perf_hafta": _safe_float(veri.get("Perf.W")),
             "perf_ay": _safe_float(veri.get("Perf.1M")),
             "perf_3ay": _safe_float(veri.get("Perf.3M")),
         }
 
-        # Öneri çevir (1-5 skalası → AL/TUT/SAT)
+        # Analist öneri çevir (1-5 → AL/TUT/SAT)
         rating = stock["analist_rating"]
         if rating is not None:
             if rating <= 1.5:
@@ -197,7 +204,7 @@ def tv_veri_parse(raw_data):
         else:
             stock["teknik_oneri"] = None
 
-        # Getiri potansiyeli hesapla
+        # Getiri potansiyeli
         if stock["hedef_fiyat"] and stock["son_fiyat"] and stock["son_fiyat"] > 0:
             stock["getiri_potansiyeli"] = round(
                 ((stock["hedef_fiyat"] - stock["son_fiyat"]) / stock["son_fiyat"]) * 100,
@@ -215,29 +222,18 @@ def tv_teknik_analiz_toplu(tickers: list):
     """
     tradingview-ta kütüphanesi ile toplu teknik analiz çeker.
     Kütüphane yüklü değilse atlar.
-    
-    Args:
-        tickers: BIST ticker listesi
-    
-    Returns:
-        dict: {ticker: {"oneri": "BUY", "buy": 8, "sell": 3, "neutral": 6}}
     """
     try:
-        from tradingview_ta import TA_Handler, Interval, get_multiple_analysis
+        from tradingview_ta import Interval, get_multiple_analysis
     except ImportError:
-        print("  [TV-TA] tradingview-ta yüklü değil, teknik analiz atlanıyor")
         return {}
 
     sonuclar = {}
-
-    # Sembolleri BIST formatına çevir
     symbols = [f"BIST:{t}" for t in tickers]
-
-    # 50'şerli batch'ler halinde çek (API limiti)
     batch_size = 50
-    for i in range(0, len(symbols), batch_size):
-        batch = symbols[i : i + batch_size]
 
+    for i in range(0, len(symbols), batch_size):
+        batch = symbols[i: i + batch_size]
         try:
             analyses = get_multiple_analysis(
                 screener="turkey",
@@ -245,13 +241,10 @@ def tv_teknik_analiz_toplu(tickers: list):
                 symbols=batch,
                 timeout=15,
             )
-
             for symbol_key, analysis in analyses.items():
                 if analysis is None:
                     continue
-
                 ticker = symbol_key.split(":")[-1] if ":" in symbol_key else symbol_key
-
                 summary = analysis.summary
                 sonuclar[ticker] = {
                     "teknik_oneri_ta": summary.get("RECOMMENDATION", ""),
@@ -259,11 +252,9 @@ def tv_teknik_analiz_toplu(tickers: list):
                     "teknik_sell": summary.get("SELL", 0),
                     "teknik_neutral": summary.get("NEUTRAL", 0),
                 }
-
         except Exception as e:
             print(f"  [TV-TA] Batch {i // batch_size + 1} hata: {e}")
 
-        # Rate limiting
         if i + batch_size < len(symbols):
             time.sleep(0.5)
 
@@ -273,12 +264,7 @@ def tv_teknik_analiz_toplu(tickers: list):
 def tv_tam_veri_cek(mevcut_stocks: list = None):
     """
     Ana fonksiyon: TradingView'dan tüm verileri çeker ve birleştirir.
-    
-    Args:
-        mevcut_stocks: Mevcut hisse listesi (varsa sadece bunlar için TA çek)
-    
-    Returns:
-        dict: {ticker: {birleştirilmiş tüm veriler}}
+    Returns: dict {ticker: {birleştirilmiş tüm veriler}}
     """
     print("  → TradingView Screener API çağrılıyor...")
     raw = tv_screener_toplu_cek()
@@ -296,21 +282,17 @@ def tv_tam_veri_cek(mevcut_stocks: list = None):
     print(f"  ✓ {hedefli} hisse için analist hedef fiyatı var")
     print(f"  ✓ {analistli} hisse analist takibinde")
 
-    # tradingview-ta ile teknik analiz ekle (opsiyonel)
     if mevcut_stocks:
         tickers = [s["ticker"] for s in mevcut_stocks if "ticker" in s]
     else:
         tickers = list(sonuclar.keys())
 
-    # Sadece filtrelenmiş hisseler için TA çek (hız için)
     if len(tickers) <= 200:
         print(f"  → {len(tickers)} hisse için teknik analiz çekiliyor...")
         ta_data = tv_teknik_analiz_toplu(tickers)
-
         for ticker, ta in ta_data.items():
             if ticker in sonuclar:
                 sonuclar[ticker].update(ta)
-
         if ta_data:
             print(f"  ✓ {len(ta_data)} hisse için teknik analiz alındı")
     else:
@@ -319,10 +301,9 @@ def tv_tam_veri_cek(mevcut_stocks: list = None):
     return sonuclar
 
 
-# ── Yardımcı fonksiyonlar ────────────────────────────────────────────────────
+# ── Yardımcı fonksiyonlar ─────────────────────────────────────────────────────
 
 def _safe_float(val):
-    """Güvenli float dönüşüm."""
     if val is None:
         return None
     try:
@@ -332,7 +313,6 @@ def _safe_float(val):
 
 
 def _safe_int(val):
-    """Güvenli int dönüşüm."""
     if val is None:
         return None
     try:
@@ -346,7 +326,7 @@ def teknik_oneri_renk(oneri: str) -> str:
     if not oneri:
         return ""
     o = oneri.upper()
-    if "GÜÇLÜ AL" in o or "STRONG_BUY" in o:
+    if "GÜÇLÜ AL" in o or "STRONG_BUY" in o or "STRONG BUY" in o:
         return "oneri-al"
     elif "AL" in o or "BUY" in o:
         return "oneri-al"
