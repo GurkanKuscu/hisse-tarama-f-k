@@ -1,3 +1,2 @@
 requests>=2.31.0
-beautifulsoup4>=4.12.0
-tradingview-ta>=3.3.0
+tradingview-screener>=0.2.0
