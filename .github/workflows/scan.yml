@@ -25,8 +25,21 @@ jobs:
       - name: Bağımlılıkları Kur
         run: pip install -r requirements.txt
 
-      - name: Taramayı Çalıştır
-        run: python screener.py
+     - name: Taramayı Çalıştır
+        run: |
+          python -c "
+          import requests
+          for url in [
+              'https://www.isyatirim.com.tr',
+              'https://scanner.tradingview.com',
+          ]:
+              try:
+                  r = requests.get(url, timeout=10)
+                  print(f'OK {r.status_code}: {url}')
+              except Exception as e:
+                  print(f'FAIL: {url} → {e}')
+          "
+          python screener.py
 
       - name: Sonuçları Commit Et
         run: |
