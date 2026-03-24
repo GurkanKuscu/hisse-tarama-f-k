@@ -32,7 +32,7 @@ jobs:
         run: |
           git config user.name "BIST Bot"
           git config user.email "bot@bist-screener"
-          git pull --rebase origin main
           git add docs/
           git diff --staged --quiet || git commit -m "📊 Günlük tarama: $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git pull --rebase origin main
           git push
