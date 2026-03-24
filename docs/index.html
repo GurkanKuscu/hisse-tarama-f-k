@@ -23,322 +23,53 @@
             --border: #1e293b;
             --border-subtle: rgba(255,255,255,0.06);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Space Grotesk', system-ui, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            min-height: 100vh;
-        }
-
-        .bg-grid {
-            position: fixed;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 60px 60px;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo {
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--accent-emerald);
-            margin-bottom: 0.75rem;
-        }
-
-        h1 {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            background: linear-gradient(135deg, #e2e8f0, #22c55e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-        }
-
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .meta-bar {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 1.25rem;
-        }
-
-        .meta-item {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            background: var(--bg-secondary);
-            padding: 0.4rem 0.8rem;
-            border-radius: 6px;
-            border: 1px solid var(--border-subtle);
-        }
-
-        .meta-item span {
-            color: var(--accent-emerald);
-            font-weight: 600;
-        }
-
-        /* ─── Filtre kartları ─── */
-        .filters {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .filter-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: 10px;
-            padding: 1rem 1.25rem;
-            text-align: center;
-        }
-
-        .filter-card .label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-muted);
-            margin-bottom: 0.4rem;
-        }
-
-        .filter-card .value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent-emerald);
-        }
-
-        /* ─── Tablo ─── */
-        .table-wrap {
-            overflow-x: auto;
-            border-radius: 12px;
-            border: 1px solid var(--border-subtle);
-            background: var(--bg-secondary);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.88rem;
-        }
-
-        thead th {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--text-muted);
-            background: var(--bg-card);
-            padding: 0.9rem 1rem;
-            text-align: right;
-            white-space: nowrap;
-            position: sticky;
-            top: 0;
-            border-bottom: 2px solid var(--border);
-        }
-
-        thead th:nth-child(1),
-        thead th:nth-child(2),
-        thead th:nth-child(3) {
-            text-align: left;
-        }
-
-        tbody tr {
-            border-bottom: 1px solid var(--border-subtle);
-            transition: background 0.15s;
-        }
-
-        tbody tr:hover {
-            background: var(--bg-row-hover);
-        }
-
-        td {
-            padding: 0.75rem 1rem;
-            white-space: nowrap;
-        }
-
-        td.rank {
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            width: 50px;
-        }
-
-        td.ticker a {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            color: var(--accent-blue);
-            text-decoration: none;
-            font-size: 0.95rem;
-        }
-
-        td.ticker a:hover {
-            color: var(--accent-emerald);
-            text-decoration: underline;
-        }
-
-        td.ad {
-            color: var(--text-secondary);
-            font-size: 0.82rem;
-            max-width: 200px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        td.num {
-            font-family: 'JetBrains Mono', monospace;
-            text-align: right;
-            color: var(--text-primary);
-        }
-
-        .skor-cok-ucuz {
-            color: var(--accent-green) !important;
-            font-weight: 700;
-        }
-
-        .skor-ucuz {
-            color: var(--accent-emerald) !important;
-            font-weight: 600;
-        }
-
-        .skor-normal {
-            color: var(--accent-amber) !important;
-        }
-
-        .skor-pahali {
-            color: var(--accent-red) !important;
-        }
-
-        /* ─── Hedef Fiyat & Öneri ─── */
-        .oneri-badge {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            letter-spacing: 0.05em;
-        }
-
-        .oneri-al {
-            background: rgba(34, 197, 94, 0.15);
-            color: var(--accent-green);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-        }
-
-        .oneri-tut {
-            background: rgba(245, 158, 11, 0.15);
-            color: var(--accent-amber);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-
-        .oneri-sat {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--accent-red);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        .oneri-yok {
-            color: var(--text-muted);
-        }
-
-        .getiri-yuksek {
-            color: var(--accent-green) !important;
-            font-weight: 700;
-        }
-
-        .getiri-orta {
-            color: var(--accent-emerald) !important;
-            font-weight: 600;
-        }
-
-        .getiri-dusuk {
-            color: var(--accent-amber) !important;
-        }
-
-        .getiri-negatif {
-            color: var(--accent-red) !important;
-        }
-
-        .analist-n {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            margin-left: 0.15rem;
-        }
-
-        /* ─── Footer ─── */
-        footer {
-            text-align: center;
-            margin-top: 2.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border);
-            color: var(--text-muted);
-            font-size: 0.78rem;
-        }
-
-        footer a {
-            color: var(--accent-blue);
-            text-decoration: none;
-        }
-
-        .disclaimer {
-            margin-top: 0.75rem;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            opacity: 0.7;
-        }
-
-        /* ─── Boş durum ─── */
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: var(--text-muted);
-        }
-
-        .empty-state .icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        /* ─── Responsive ─── */
-        @media (max-width: 768px) {
-            .container { padding: 1rem; }
-            h1 { font-size: 1.4rem; }
-            table { font-size: 0.8rem; }
-            td, th { padding: 0.5rem 0.6rem; }
-            td.ad { display: none; }
-        }
+        body { font-family: 'Space Grotesk', system-ui, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; min-height: 100vh; }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; z-index: 0; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem 1.5rem; position: relative; z-index: 1; }
+        header { text-align: center; margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+        .logo { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent-emerald); margin-bottom: 0.75rem; }
+        h1 { font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, #e2e8f0, #22c55e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem; }
+        .subtitle { color: var(--text-muted); font-size: 0.9rem; }
+        .meta-bar { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 1.25rem; }
+        .meta-item { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-secondary); background: var(--bg-secondary); padding: 0.4rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-subtle); }
+        .meta-item span { color: var(--accent-emerald); font-weight: 600; }
+        .filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .filter-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 1rem 1.25rem; text-align: center; }
+        .filter-card .label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.4rem; }
+        .filter-card .value { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent-emerald); }
+        .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border-subtle); background: var(--bg-secondary); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+        thead th { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); background: var(--bg-card); padding: 0.9rem 1rem; text-align: right; white-space: nowrap; position: sticky; top: 0; border-bottom: 2px solid var(--border); }
+        thead th:nth-child(1), thead th:nth-child(2), thead th:nth-child(3) { text-align: left; }
+        tbody tr { border-bottom: 1px solid var(--border-subtle); transition: background 0.15s; }
+        tbody tr:hover { background: var(--bg-row-hover); }
+        td { padding: 0.75rem 1rem; white-space: nowrap; }
+        td.rank { font-family: 'JetBrains Mono', monospace; color: var(--text-muted); font-size: 0.8rem; width: 50px; }
+        td.ticker a { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent-blue); text-decoration: none; font-size: 0.95rem; }
+        td.ticker a:hover { color: var(--accent-emerald); text-decoration: underline; }
+        td.ad { color: var(--text-secondary); font-size: 0.82rem; max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
+        td.num { font-family: 'JetBrains Mono', monospace; text-align: right; color: var(--text-primary); }
+        .skor-cok-ucuz { color: var(--accent-green) !important; font-weight: 700; }
+        .skor-ucuz { color: var(--accent-emerald) !important; font-weight: 600; }
+        .skor-normal { color: var(--accent-amber) !important; }
+        .skor-pahali { color: var(--accent-red) !important; }
+        .oneri-badge { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; letter-spacing: 0.05em; }
+        .oneri-al { background: rgba(34,197,94,0.15); color: var(--accent-green); border: 1px solid rgba(34,197,94,0.3); }
+        .oneri-tut { background: rgba(245,158,11,0.15); color: var(--accent-amber); border: 1px solid rgba(245,158,11,0.3); }
+        .oneri-sat { background: rgba(239,68,68,0.15); color: var(--accent-red); border: 1px solid rgba(239,68,68,0.3); }
+        .oneri-yok { color: var(--text-muted); }
+        .getiri-yuksek { color: var(--accent-green) !important; font-weight: 700; }
+        .getiri-orta { color: var(--accent-emerald) !important; font-weight: 600; }
+        .getiri-dusuk { color: var(--accent-amber) !important; }
+        .getiri-negatif { color: var(--accent-red) !important; }
+        .analist-n { font-size: 0.65rem; color: var(--text-muted); margin-left: 0.15rem; }
+        footer { text-align: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.78rem; }
+        footer a { color: var(--accent-blue); text-decoration: none; }
+        .disclaimer { margin-top: 0.75rem; font-size: 0.7rem; opacity: 0.7; }
+        .empty-state { text-align: center; padding: 4rem 2rem; color: var(--text-muted); }
+        .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; }
+        @media (max-width: 768px) { .container { padding: 1rem; } h1 { font-size: 1.4rem; } table { font-size: 0.8rem; } td, th { padding: 0.5rem 0.6rem; } td.ad { display: none; } }
     </style>
 </head>
 <body>
@@ -356,45 +87,24 @@
         </header>
 
         <div class="filters">
-            <div class="filter-card">
-                <div class="label">F/K ≤</div>
-                <div class="value">10</div>
-            </div>
-            <div class="filter-card">
-                <div class="label">PD/DD ≤</div>
-                <div class="value">2.0</div>
-            </div>
-            <div class="filter-card">
-                <div class="label">FD/FAVÖK ≤</div>
-                <div class="value">8</div>
-            </div>
-            <div class="filter-card">
-                <div class="label">FD/Satışlar ≤</div>
-                <div class="value">1.5</div>
-            </div>
+            <div class="filter-card"><div class="label">F/K ≤</div><div class="value">10</div></div>
+            <div class="filter-card"><div class="label">PD/DD ≤</div><div class="value">2.0</div></div>
+            <div class="filter-card"><div class="label">FD/FAVÖK ≤</div><div class="value">8</div></div>
+            <div class="filter-card"><div class="label">FD/Satışlar ≤</div><div class="value">1.5</div></div>
         </div>
 
         <div class="table-wrap">
             <table>
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Ticker</th>
-                        <th>Şirket</th>
-                        <th>F/K</th>
-                        <th>PD/DD</th>
-                        <th>FD/FAVÖK</th>
-                        <th>FD/Satış</th>
-                        <th>Fiyat</th>
-                        <th>Hedef ₺</th>
-                        <th>Potansiyel</th>
-                        <th>Analist</th>
-                        <th>Teknik</th>
-                        <th>Skor</th>
+                        <th>#</th><th>Ticker</th><th>Şirket</th>
+                        <th>F/K</th><th>PD/DD</th><th>FD/FAVÖK</th><th>FD/Satış</th>
+                        <th>Fiyat</th><th>Hedef ₺</th><th>Potansiyel</th>
+                        <th>Analist</th><th>Teknik</th><th>Skor</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td colspan="13" class="empty-state"><div class="icon">📊</div><div>Kriterlere uyan hisse bulunamadı veya veri çekilemedi.</div></td></tr>
+                    <tr><td colspan="13"><div class="empty-state"><div class="icon">📊</div><div>Kriterlere uyan hisse bulunamadı veya veri çekilemedi.</div></div></td></tr>
                 </tbody>
             </table>
         </div>
@@ -402,10 +112,7 @@
         <footer>
             <p>Veriler <a href="https://www.tradingview.com" target="_blank">TradingView</a> ve
                <a href="https://www.isyatirim.com.tr" target="_blank">İş Yatırım</a>'dan alınmaktadır.</p>
-            <p class="disclaimer">
-                ⚠️ Bu tarayıcı yatırım tavsiyesi değildir. Kendi araştırmanızı yapın.
-                Veriler gecikebilir veya eksik olabilir.
-            </p>
+            <p class="disclaimer">⚠️ Bu tarayıcı yatırım tavsiyesi değildir. Kendi araştırmanızı yapın.</p>
         </footer>
     </div>
 </body>
