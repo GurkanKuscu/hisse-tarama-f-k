@@ -1,1 +1,2 @@
 requests>=2.31.0
+tradingview-screener>=0.2.0
