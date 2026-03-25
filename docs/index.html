@@ -1,685 +1,119 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BIST Ucuz Hisse Tarayıcı</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#0a0e17;--bg2:#111827;--bg3:#1a2234;--tx:#e2e8f0;--tx2:#94a3b8;--tx3:#64748b;--gr:#22c55e;--em:#10b981;--bl:#3b82f6;--am:#f59e0b;--rd:#ef4444;--bd:rgba(255,255,255,.06)}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6}
-.c{max-width:1400px;margin:0 auto;padding:1.5rem}
-header{text-align:center;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--bd)}
-.logo{font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--em);margin-bottom:.5rem}
-h1{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,#e2e8f0,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.3rem}
-.sub{color:var(--tx3);font-size:.85rem}
-.meta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1rem}
-.mi{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--tx2);background:var(--bg2);padding:.35rem .7rem;border-radius:5px;border:1px solid var(--bd)}
-.mi span{color:var(--em);font-weight:600}
-.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.8rem;margin-bottom:1.5rem}
-.fc{background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:.8rem 1rem;text-align:center}
-.fc .l{font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);margin-bottom:.3rem}
-.fc .v{font-family:'JetBrains Mono',monospace;font-size:1.3rem;font-weight:700;color:var(--em)}
-.tw{overflow-x:auto;border-radius:10px;border:1px solid var(--bd);background:var(--bg2)}
-table{width:100%;border-collapse:collapse;font-size:.85rem}
-thead th{font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--tx3);background:var(--bg3);padding:.75rem .7rem;text-align:right;white-space:nowrap;position:sticky;top:0;border-bottom:2px solid rgba(255,255,255,.08)}
-thead th:nth-child(-n+3){text-align:left}
-tbody tr{border-bottom:1px solid var(--bd);transition:background .15s}
-tbody tr:hover{background:rgba(30,41,59,.7)}
-td{padding:.6rem .7rem;white-space:nowrap}
-td.r{font-family:'JetBrains Mono',monospace;color:var(--tx3);font-size:.75rem;width:40px}
-td.t a{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--bl);text-decoration:none;font-size:.92rem}
-td.t a:hover{color:var(--em);text-decoration:underline}
-td.a{color:var(--tx2);font-size:.8rem;max-width:200px;overflow:hidden;text-overflow:ellipsis}
-td.n{font-family:'JetBrains Mono',monospace;text-align:right;color:var(--tx)}
-.b{font-family:'JetBrains Mono',monospace;font-size:.67rem;font-weight:700;padding:.18rem .45rem;border-radius:3px;letter-spacing:.04em}
-.badge-al{background:rgba(34,197,94,.15);color:var(--gr);border:1px solid rgba(34,197,94,.3)}
-.badge-tut{background:rgba(245,158,11,.15);color:var(--am);border:1px solid rgba(245,158,11,.3)}
-.badge-sat{background:rgba(239,68,68,.15);color:var(--rd);border:1px solid rgba(239,68,68,.3)}
-.s-1{color:var(--gr)!important;font-weight:700}
-.s-2{color:var(--em)!important;font-weight:600}
-.s-3{color:var(--am)!important}
-.s-4{color:var(--rd)!important}
-footer{text-align:center;margin-top:2rem;padding-top:1rem;border-top:1px solid var(--bd);color:var(--tx3);font-size:.72rem}
-footer a{color:var(--bl);text-decoration:none}
-.disc{margin-top:.5rem;font-size:.65rem;opacity:.6}
-@media(max-width:768px){.c{padding:.8rem}h1{font-size:1.2rem}table{font-size:.78rem}td,th{padding:.4rem .4rem}td.a{display:none}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIST Ucuz Hisse Tarayıcı</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2234;
+            --bg-row-hover: #1e293b;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-green: #22c55e;
+            --accent-emerald: #10b981;
+            --accent-blue: #3b82f6;
+            --accent-amber: #f59e0b;
+            --accent-red: #ef4444;
+            --border: #1e293b;
+            --border-subtle: rgba(255,255,255,0.06);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Space Grotesk', system-ui, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; min-height: 100vh; }
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; z-index: 0; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem 1.5rem; position: relative; z-index: 1; }
+        header { text-align: center; margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+        .logo { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent-emerald); margin-bottom: 0.75rem; }
+        h1 { font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, #e2e8f0, #22c55e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem; }
+        .subtitle { color: var(--text-muted); font-size: 0.9rem; }
+        .meta-bar { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 1.25rem; }
+        .meta-item { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-secondary); background: var(--bg-secondary); padding: 0.4rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-subtle); }
+        .meta-item span { color: var(--accent-emerald); font-weight: 600; }
+        .filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .filter-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 1rem 1.25rem; text-align: center; }
+        .filter-card .label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.4rem; }
+        .filter-card .value { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent-emerald); }
+        .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border-subtle); background: var(--bg-secondary); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+        thead th { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); background: var(--bg-card); padding: 0.9rem 1rem; text-align: right; white-space: nowrap; position: sticky; top: 0; border-bottom: 2px solid var(--border); }
+        thead th:nth-child(1), thead th:nth-child(2), thead th:nth-child(3) { text-align: left; }
+        tbody tr { border-bottom: 1px solid var(--border-subtle); transition: background 0.15s; }
+        tbody tr:hover { background: var(--bg-row-hover); }
+        td { padding: 0.75rem 1rem; white-space: nowrap; }
+        td.rank { font-family: 'JetBrains Mono', monospace; color: var(--text-muted); font-size: 0.8rem; width: 50px; }
+        td.ticker a { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent-blue); text-decoration: none; font-size: 0.95rem; }
+        td.ticker a:hover { color: var(--accent-emerald); text-decoration: underline; }
+        td.ad { color: var(--text-secondary); font-size: 0.82rem; max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
+        td.num { font-family: 'JetBrains Mono', monospace; text-align: right; color: var(--text-primary); }
+        .skor-cok-ucuz { color: var(--accent-green) !important; font-weight: 700; }
+        .skor-ucuz { color: var(--accent-emerald) !important; font-weight: 600; }
+        .skor-normal { color: var(--accent-amber) !important; }
+        .skor-pahali { color: var(--accent-red) !important; }
+        .oneri-badge { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; letter-spacing: 0.05em; }
+        .oneri-al { background: rgba(34,197,94,0.15); color: var(--accent-green); border: 1px solid rgba(34,197,94,0.3); }
+        .oneri-tut { background: rgba(245,158,11,0.15); color: var(--accent-amber); border: 1px solid rgba(245,158,11,0.3); }
+        .oneri-sat { background: rgba(239,68,68,0.15); color: var(--accent-red); border: 1px solid rgba(239,68,68,0.3); }
+        .oneri-yok { color: var(--text-muted); }
+        .getiri-yuksek { color: var(--accent-green) !important; font-weight: 700; }
+        .getiri-orta { color: var(--accent-emerald) !important; font-weight: 600; }
+        .getiri-dusuk { color: var(--accent-amber) !important; }
+        .getiri-negatif { color: var(--accent-red) !important; }
+        .analist-n { font-size: 0.65rem; color: var(--text-muted); margin-left: 0.15rem; }
+        footer { text-align: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.78rem; }
+        footer a { color: var(--accent-blue); text-decoration: none; }
+        .disclaimer { margin-top: 0.75rem; font-size: 0.7rem; opacity: 0.7; }
+        .empty-state { text-align: center; padding: 4rem 2rem; color: var(--text-muted); }
+        .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; }
+        @media (max-width: 768px) { .container { padding: 1rem; } h1 { font-size: 1.4rem; } table { font-size: 0.8rem; } td, th { padding: 0.5rem 0.6rem; } td.ad { display: none; } }
+    </style>
 </head>
 <body>
-<div class="c">
-<header>
-<div class="logo">▲ BIST Screener</div>
-<h1>Ucuz Hisse Tarayıcı</h1>
-<p class="sub">Temel çarpanlara göre BIST'in en ucuz hisseleri</p>
-<div class="meta">
-<div class="mi">Tarama: <span>2026-03-25 12:00 UTC</span></div>
-<div class="mi">Bulunan: <span>95</span> hisse</div>
-<div class="mi">Gösterilen: <span>50</span></div>
-</div>
-</header>
-<div class="filters">
-<div class="fc"><div class="l">F/K ≤</div><div class="v">10</div></div>
-<div class="fc"><div class="l">PD/DD ≤</div><div class="v">2.0</div></div>
-<div class="fc"><div class="l">FD/FAVÖK ≤</div><div class="v">8</div></div>
-<div class="fc"><div class="l">FD/Satışlar ≤</div><div class="v">1.5</div></div>
-</div>
-<div class="tw">
-<table>
-<thead><tr>
-<th>#</th><th>Ticker</th><th>Şirket</th><th>F/K</th><th>PD/DD</th>
-<th>FD/FAVÖK</th><th>FD/Satış</th><th>Fiyat</th><th>Teknik</th><th>Skor</th>
-</tr></thead>
-<tbody>
-<tr>
-<td class="r">#1</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-VESTL/" target="_blank">VESTL</a></td>
-<td class="a">VESTEL ELEKTRONİK SANAYİ VE TİCARET A.Ş.</td>
-<td class="n">-</td>
-<td class="n">0.36</td>
-<td class="n">-</td>
-<td class="n">0.07</td>
-<td class="n">28.94</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-1">0.122</td>
-</tr>
-<tr>
-<td class="r">#2</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-CRFSA/" target="_blank">CRFSA</a></td>
-<td class="a">CARREFOURSA CARREFOUR SABANCI TİCARET MERKEZİ A.Ş.</td>
-<td class="n">-</td>
-<td class="n">-</td>
-<td class="n">-</td>
-<td class="n">0.19</td>
-<td class="n">118.10</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-1">0.126</td>
-</tr>
-<tr>
-<td class="r">#3</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-MEGAP/" target="_blank">MEGAP</a></td>
-<td class="a">MEGA POLİETİLEN KÖPÜK SANAYİ VE TİCARET A.Ş.</td>
-<td class="n">1.4</td>
-<td class="n">0.22</td>
-<td class="n">3.1</td>
-<td class="n">0.05</td>
-<td class="n">2.40</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-1">0.171</td>
-</tr>
-<tr>
-<td class="r">#4</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-ARZUM/" target="_blank">ARZUM</a></td>
-<td class="a">ARZUM ELEKTRİKLİ EV ALETLERİ SANAYİ VE TİCARET A.Ş.</td>
-<td class="n">-</td>
-<td class="n">-</td>
-<td class="n">-</td>
-<td class="n">0.30</td>
-<td class="n">2.50</td>
-<td class="n"><span class="b badge-sat">GÜÇLÜ SAT</span></td>
-<td class="n s-1">0.202</td>
-</tr>
-<tr>
-<td class="r">#5</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-ALBRK/" target="_blank">ALBRK</a></td>
-<td class="a">ALBARAKA TÜRK KATILIM BANKASI A.Ş.</td>
-<td class="n">1.4</td>
-<td class="n">0.72</td>
-<td class="n">-</td>
-<td class="n">0.25</td>
-<td class="n">8.28</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-1">0.221</td>
-</tr>
-<tr>
-<td class="r">#6</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-GLRYH/" target="_blank">GLRYH</a></td>
-<td class="a">GÜLER YATIRIM HOLDİNG A.Ş.</td>
-<td class="n">2.2</td>
-<td class="n">0.49</td>
-<td class="n">1.5</td>
-<td class="n">0.37</td>
-<td class="n">4.29</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-1">0.223</td>
-</tr>
-<tr>
-<td class="r">#7</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-ULUUN/" target="_blank">ULUUN</a></td>
-<td class="a">ULUSOY UN SANAYİ VE TİCARET A.Ş.</td>
-<td class="n">-</td>
-<td class="n">0.44</td>
-<td class="n">3.6</td>
-<td class="n">0.11</td>
-<td class="n">7.71</td>
-<td class="n"><span class="b badge-al">AL</span></td>
-<td class="n s-1">0.259</td>
-</tr>
-<tr>
-<td class="r">#8</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-PENGD/" target="_blank">PENGD</a></td>
-<td class="a">PENGUEN GIDA SANAYİ A.Ş.</td>
-<td class="n">-</td>
-<td class="n">0.38</td>
-<td class="n">-</td>
-<td class="n">0.52</td>
-<td class="n">9.18</td>
-<td class="n"><span class="b badge-al">AL</span></td>
-<td class="n s-1">0.260</td>
-</tr>
-<tr>
-<td class="r">#9</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-SILVR/" target="_blank">SILVR</a></td>
-<td class="a">SİLVERLİNE ENDÜSTRİ VE TİCARET A.Ş.</td>
-<td class="n">-</td>
-<td class="n">0.53</td>
-<td class="n">-</td>
-<td class="n">0.49</td>
-<td class="n">2.44</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-1">0.294</td>
-</tr>
-<tr>
-<td class="r">#10</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-A1CAP/" target="_blank">A1CAP</a></td>
-<td class="a">A1 Capital Yatitim Menkul Degerler A.S.</td>
-<td class="n">2.7</td>
-<td class="n">1.09</td>
-<td class="n">1.2</td>
-<td class="n">0.40</td>
-<td class="n">14.81</td>
-<td class="n"><span class="b badge-tut">NÖTR</span></td>
-<td class="n s-1">0.306</td>
-</tr>
-<tr>
-<td class="r">#11</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-TUKAS/" target="_blank">TUKAS</a></td>
-<td class="a">TUKAŞ GIDA SANAYİ VE TİCARET A.Ş.</td>
-<td class="n">-</td>
-<td class="n">0.63</td>
-<td class="n">-</td>
-<td class="n">-</td>
-<td class="n">2.35</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-1">0.314</td>
-</tr>
-<tr>
-<td class="r">#12</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-IHGZT/" target="_blank">IHGZT</a></td>
-<td class="a">İHLAS GAZETECİLİK A.Ş.</td>
-<td class="n">4.6</td>
-<td class="n">0.28</td>
-<td class="n">-</td>
-<td class="n">0.47</td>
-<td class="n">1.41</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-1">0.314</td>
-</tr>
-<tr>
-<td class="r">#13</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-IHLAS/" target="_blank">IHLAS</a></td>
-<td class="a">İHLAS HOLDİNG A.Ş.</td>
-<td class="n">-</td>
-<td class="n">1.04</td>
-<td class="n">-</td>
-<td class="n">0.18</td>
-<td class="n">1.97</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-1">0.341</td>
-</tr>
-<tr>
-<td class="r">#14</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-SERNT/" target="_blank">SERNT</a></td>
-<td class="a">Seranit Granit Seramik Sanayi ve Ticaret A.S.</td>
-<td class="n">-</td>
-<td class="n">0.70</td>
-<td class="n">-</td>
-<td class="n">-</td>
-<td class="n">7.72</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-1">0.352</td>
-</tr>
-<tr>
-<td class="r">#15</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-ISBIR/" target="_blank">ISBIR</a></td>
-<td class="a">İŞBİR HOLDİNG A.Ş.</td>
-<td class="n">-</td>
-<td class="n">0.32</td>
-<td class="n">5.7</td>
-<td class="n">0.26</td>
-<td class="n">71.00</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-1">0.359</td>
-</tr>
-<tr>
-<td class="r">#16</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-ULUFA/" target="_blank">ULUFA</a></td>
-<td class="a">ULUSAL FAKTORİNG A.Ş.</td>
-<td class="n">3.3</td>
-<td class="n">1.22</td>
-<td class="n">2.3</td>
-<td class="n">0.29</td>
-<td class="n">4.59</td>
-<td class="n"><span class="b badge-al">GÜÇLÜ AL</span></td>
-<td class="n s-1">0.362</td>
-</tr>
-<tr>
-<td class="r">#17</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-IHYAY/" target="_blank">IHYAY</a></td>
-<td class="a">İHLAS YAYIN HOLDİNG A.Ş.</td>
-<td class="n">-</td>
-<td class="n">1.09</td>
-<td class="n">-</td>
-<td class="n">0.24</td>
-<td class="n">1.72</td>
-<td class="n"><span class="b badge-sat">GÜÇLÜ SAT</span></td>
-<td class="n s-1">0.374</td>
-</tr>
-<tr>
-<td class="r">#18</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-PETKM/" target="_blank">PETKM</a></td>
-<td class="a">PETKİM PETROKİMYA HOLDİNG A.Ş.</td>
-<td class="n">-</td>
-<td class="n">0.75</td>
-<td class="n">-</td>
-<td class="n">0.57</td>
-<td class="n">19.01</td>
-<td class="n"><span class="b badge-al">AL</span></td>
-<td class="n s-1">0.377</td>
-</tr>
-<tr>
-<td class="r">#19</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-VAKBN/" target="_blank">VAKBN</a></td>
-<td class="a">TÜRKİYE VAKIFLAR BANKASI T.A.O.</td>
-<td class="n">4.2</td>
-<td class="n">0.99</td>
-<td class="n">-</td>
-<td class="n">0.28</td>
-<td class="n">32.74</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-1">0.382</td>
-</tr>
-<tr>
-<td class="r">#20</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-PAHOL/" target="_blank">PAHOL</a></td>
-<td class="a">PASIFIK HOLDING A.S</td>
-<td class="n">-</td>
-<td class="n">0.76</td>
-<td class="n">-</td>
-<td class="n">-</td>
-<td class="n">1.52</td>
-<td class="n"><span class="b badge-tut">NÖTR</span></td>
-<td class="n s-1">0.382</td>
-</tr>
-<tr>
-<td class="r">#21</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-ISCTR/" target="_blank">ISCTR</a></td>
-<td class="a">TÜRKİYE İŞ BANKASI A.Ş.</td>
-<td class="n">5.0</td>
-<td class="n">0.79</td>
-<td class="n">-</td>
-<td class="n">0.29</td>
-<td class="n">13.56</td>
-<td class="n"><span class="b badge-sat">GÜÇLÜ SAT</span></td>
-<td class="n s-1">0.384</td>
-</tr>
-<tr>
-<td class="r">#22</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-TSKB/" target="_blank">TSKB</a></td>
-<td class="a">TÜRKİYE SINAİ KALKINMA BANKASI A.Ş.</td>
-<td class="n">3.0</td>
-<td class="n">0.75</td>
-<td class="n">-</td>
-<td class="n">0.83</td>
-<td class="n">12.18</td>
-<td class="n"><span class="b badge-sat">GÜÇLÜ SAT</span></td>
-<td class="n s-1">0.393</td>
-</tr>
-<tr>
-<td class="r">#23</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-THYAO/" target="_blank">THYAO</a></td>
-<td class="a">TÜRK HAVA YOLLARI A.O.</td>
-<td class="n">3.5</td>
-<td class="n">0.45</td>
-<td class="n">5.7</td>
-<td class="n">0.43</td>
-<td class="n">297.00</td>
-<td class="n"><span class="b badge-tut">NÖTR</span></td>
-<td class="n s-1">0.394</td>
-</tr>
-<tr>
-<td class="r">#24</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-EGSER/" target="_blank">EGSER</a></td>
-<td class="a">EGE SERAMİK SANAYİ VE TİCARET A.Ş.</td>
-<td class="n">-</td>
-<td class="n">1.05</td>
-<td class="n">-</td>
-<td class="n">0.49</td>
-<td class="n">2.91</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-2">0.437</td>
-</tr>
-<tr>
-<td class="r">#25</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-DYOBY/" target="_blank">DYOBY</a></td>
-<td class="a">DYO BOYA FABRİKALARI SANAYİ VE TİCARET A.Ş.</td>
-<td class="n">-</td>
-<td class="n">0.53</td>
-<td class="n">6.2</td>
-<td class="n">0.40</td>
-<td class="n">13.05</td>
-<td class="n"><span class="b badge-sat">GÜÇLÜ SAT</span></td>
-<td class="n s-2">0.447</td>
-</tr>
-<tr>
-<td class="r">#26</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-KRDMA/" target="_blank">KRDMA</a></td>
-<td class="a">KARDEMİR KARABÜK DEMİR ÇELİK SANAYİ VE TİCARET A.Ş.</td>
-<td class="n">-</td>
-<td class="n">0.40</td>
-<td class="n">6.3</td>
-<td class="n">0.53</td>
-<td class="n">29.38</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-2">0.453</td>
-</tr>
-<tr>
-<td class="r">#27</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-KRDMD/" target="_blank">KRDMD</a></td>
-<td class="a">KARDEMİR KARABÜK DEMİR ÇELİK SANAYİ VE TİCARET A.Ş.</td>
-<td class="n">-</td>
-<td class="n">0.40</td>
-<td class="n">6.3</td>
-<td class="n">0.53</td>
-<td class="n">29.52</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-2">0.454</td>
-</tr>
-<tr>
-<td class="r">#28</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-ATLAS/" target="_blank">ATLAS</a></td>
-<td class="a">ATLAS MENKUL KIYMETLER YATIRIM ORTAKLIĞI A.Ş.</td>
-<td class="n">-</td>
-<td class="n">1.11</td>
-<td class="n">5.4</td>
-<td class="n">0.09</td>
-<td class="n">8.36</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-2">0.456</td>
-</tr>
-<tr>
-<td class="r">#29</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-QUAGR/" target="_blank">QUAGR</a></td>
-<td class="a">QUA GRANITE HAYAL YAPI VE ÜRÜNLERİ SANAYİ TİCARET A.Ş.</td>
-<td class="n">-</td>
-<td class="n">0.83</td>
-<td class="n">-</td>
-<td class="n">0.78</td>
-<td class="n">3.00</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-2">0.462</td>
-</tr>
-<tr>
-<td class="r">#30</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-LIDFA/" target="_blank">LIDFA</a></td>
-<td class="a">LİDER FAKTORİNG A.Ş.</td>
-<td class="n">4.0</td>
-<td class="n">1.36</td>
-<td class="n">2.7</td>
-<td class="n">0.71</td>
-<td class="n">3.58</td>
-<td class="n"><span class="b badge-al">AL</span></td>
-<td class="n s-2">0.471</td>
-</tr>
-<tr>
-<td class="r">#31</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-HATEK/" target="_blank">HATEK</a></td>
-<td class="a">HATEKS HATAY TEKSTİL İŞLETMELERİ A.Ş.</td>
-<td class="n">-</td>
-<td class="n">0.61</td>
-<td class="n">-</td>
-<td class="n">1.01</td>
-<td class="n">15.24</td>
-<td class="n"><span class="b badge-tut">NÖTR</span></td>
-<td class="n s-2">0.471</td>
-</tr>
-<tr>
-<td class="r">#32</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-SOKM/" target="_blank">SOKM</a></td>
-<td class="a">ŞOK MARKETLER TİCARET A.Ş.</td>
-<td class="n">-</td>
-<td class="n">0.85</td>
-<td class="n">6.7</td>
-<td class="n">0.11</td>
-<td class="n">51.00</td>
-<td class="n"><span class="b badge-tut">NÖTR</span></td>
-<td class="n s-2">0.475</td>
-</tr>
-<tr>
-<td class="r">#33</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-ISFIN/" target="_blank">ISFIN</a></td>
-<td class="a">İŞ FİNANSAL KİRALAMA A.Ş.</td>
-<td class="n">3.8</td>
-<td class="n">1.14</td>
-<td class="n">4.6</td>
-<td class="n">0.65</td>
-<td class="n">19.78</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-2">0.486</td>
-</tr>
-<tr>
-<td class="r">#34</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-UNLU/" target="_blank">UNLU</a></td>
-<td class="a">ÜNLÜ YATIRIM HOLDİNG A.Ş.</td>
-<td class="n">-</td>
-<td class="n">0.86</td>
-<td class="n">3.3</td>
-<td class="n">1.00</td>
-<td class="n">13.81</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-2">0.490</td>
-</tr>
-<tr>
-<td class="r">#35</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-KRSTL/" target="_blank">KRSTL</a></td>
-<td class="a">KRİSTAL KOLA VE MEŞRUBAT SANAYİ TİCARET A.Ş.</td>
-<td class="n">5.8</td>
-<td class="n">0.95</td>
-<td class="n">3.9</td>
-<td class="n">0.55</td>
-<td class="n">8.58</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-2">0.490</td>
-</tr>
-<tr>
-<td class="r">#36</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-SEKFK/" target="_blank">SEKFK</a></td>
-<td class="a">ŞEKER FİNANSAL KİRALAMA A.Ş.</td>
-<td class="n">4.9</td>
-<td class="n">1.01</td>
-<td class="n">4.5</td>
-<td class="n">0.58</td>
-<td class="n">9.88</td>
-<td class="n"><span class="b badge-tut">NÖTR</span></td>
-<td class="n s-2">0.492</td>
-</tr>
-<tr>
-<td class="r">#37</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-YKBNK/" target="_blank">YKBNK</a></td>
-<td class="a">YAPI VE KREDİ BANKASI A.Ş.</td>
-<td class="n">6.2</td>
-<td class="n">1.13</td>
-<td class="n">-</td>
-<td class="n">0.38</td>
-<td class="n">34.32</td>
-<td class="n"><span class="b badge-sat">GÜÇLÜ SAT</span></td>
-<td class="n s-2">0.503</td>
-</tr>
-<tr>
-<td class="r">#38</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-GARAN/" target="_blank">GARAN</a></td>
-<td class="a">TÜRKİYE GARANTİ BANKASI A.Ş.</td>
-<td class="n">5.0</td>
-<td class="n">1.25</td>
-<td class="n">-</td>
-<td class="n">0.55</td>
-<td class="n">131.80</td>
-<td class="n"><span class="b badge-sat">GÜÇLÜ SAT</span></td>
-<td class="n s-2">0.507</td>
-</tr>
-<tr>
-<td class="r">#39</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-BRISA/" target="_blank">BRISA</a></td>
-<td class="a">BRİSA BRIDGESTONE SABANCI LASTİK SANAYİ VE TİCARET A.Ş.</td>
-<td class="n">-</td>
-<td class="n">1.07</td>
-<td class="n">4.5</td>
-<td class="n">0.64</td>
-<td class="n">82.85</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-2">0.512</td>
-</tr>
-<tr>
-<td class="r">#40</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-BANVT/" target="_blank">BANVT</a></td>
-<td class="a">BANVİT BANDIRMA VİTAMİNLİ YEM SANAYİİ A.Ş.</td>
-<td class="n">-</td>
-<td class="n">1.39</td>
-<td class="n">-</td>
-<td class="n">0.48</td>
-<td class="n">154.10</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-2">0.530</td>
-</tr>
-<tr>
-<td class="r">#41</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-IHLGM/" target="_blank">IHLGM</a></td>
-<td class="a">İHLAS GAYRİMENKUL PROJE GELİŞTİRME VE TİCARET A.Ş.</td>
-<td class="n">3.2</td>
-<td class="n">1.16</td>
-<td class="n">-</td>
-<td class="n">1.18</td>
-<td class="n">2.01</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-2">0.533</td>
-</tr>
-<tr>
-<td class="r">#42</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-PLTUR/" target="_blank">PLTUR</a></td>
-<td class="a">PLATFORM TURİZM TAŞIMACILIK GIDA İNŞAAT TEMİZLİK HİZMETLERİ SANAYİ VE TİCARET A.Ş.</td>
-<td class="n">8.6</td>
-<td class="n">0.68</td>
-<td class="n">3.1</td>
-<td class="n">0.75</td>
-<td class="n">24.00</td>
-<td class="n"><span class="b badge-al">AL</span></td>
-<td class="n s-2">0.539</td>
-</tr>
-<tr>
-<td class="r">#43</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-AKBNK/" target="_blank">AKBNK</a></td>
-<td class="a">AKBANK T.A.Ş.</td>
-<td class="n">6.5</td>
-<td class="n">1.21</td>
-<td class="n">-</td>
-<td class="n">0.47</td>
-<td class="n">72.00</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-2">0.546</td>
-</tr>
-<tr>
-<td class="r">#44</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-ECOGR/" target="_blank">ECOGR</a></td>
-<td class="a">Ecogreen Enerji Holding A.S.</td>
-<td class="n">-</td>
-<td class="n">1.10</td>
-<td class="n">-</td>
-<td class="n">-</td>
-<td class="n">34.22</td>
-<td class="n"><span class="b badge-al">AL</span></td>
-<td class="n s-2">0.551</td>
-</tr>
-<tr>
-<td class="r">#45</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-ARENA/" target="_blank">ARENA</a></td>
-<td class="a">ARENA BİLGİSAYAR SANAYİ VE TİCARET A.Ş.</td>
-<td class="n">-</td>
-<td class="n">1.16</td>
-<td class="n">7.4</td>
-<td class="n">0.07</td>
-<td class="n">25.92</td>
-<td class="n"><span class="b badge-tut">NÖTR</span></td>
-<td class="n s-2">0.553</td>
-</tr>
-<tr>
-<td class="r">#46</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-ANSGR/" target="_blank">ANSGR</a></td>
-<td class="a">ANADOLU ANONİM TÜRK SİGORTA ŞİRKETİ</td>
-<td class="n">4.1</td>
-<td class="n">1.57</td>
-<td class="n">-</td>
-<td class="n">0.71</td>
-<td class="n">27.84</td>
-<td class="n"><span class="b badge-al">AL</span></td>
-<td class="n s-2">0.554</td>
-</tr>
-<tr>
-<td class="r">#47</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-GEDIK/" target="_blank">GEDIK</a></td>
-<td class="a">GEDİK YATIRIM MENKUL DEĞERLER A.Ş.</td>
-<td class="n">4.4</td>
-<td class="n">1.57</td>
-<td class="n">2.7</td>
-<td class="n">1.05</td>
-<td class="n">5.28</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-2">0.554</td>
-</tr>
-<tr>
-<td class="r">#48</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-HOROZ/" target="_blank">HOROZ</a></td>
-<td class="a">Horoz Lojistik Kargo Hizmetleri Ve Ticaret AS</td>
-<td class="n">-</td>
-<td class="n">1.33</td>
-<td class="n">5.5</td>
-<td class="n">0.43</td>
-<td class="n">55.20</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-2">0.565</td>
-</tr>
-<tr>
-<td class="r">#49</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-ERBOS/" target="_blank">ERBOS</a></td>
-<td class="a">ERBOSAN ERCİYAS BORU SANAYİİ VE TİCARET A.Ş.</td>
-<td class="n">-</td>
-<td class="n">1.04</td>
-<td class="n">5.6</td>
-<td class="n">0.68</td>
-<td class="n">182.70</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-2">0.566</td>
-</tr>
-<tr>
-<td class="r">#50</td>
-<td class="t"><a href="https://www.tradingview.com/symbols/BIST-BIENY/" target="_blank">BIENY</a></td>
-<td class="a">BİEN YAPI ÜRÜNLERİ SANAYİ TURİZM VE TİCARET A.Ş.</td>
-<td class="n">-</td>
-<td class="n">0.64</td>
-<td class="n">7.2</td>
-<td class="n">0.71</td>
-<td class="n">22.86</td>
-<td class="n"><span class="b badge-sat">SAT</span></td>
-<td class="n s-2">0.573</td>
-</tr>
+    <div class="bg-grid"></div>
+    <div class="container">
+        <header>
+            <div class="logo">▲ BIST Screener</div>
+            <h1>Ucuz Hisse Tarayıcı</h1>
+            <p class="subtitle">Temel çarpanlara göre BIST'in en ucuz hisseleri</p>
+            <div class="meta-bar">
+                <div class="meta-item">Tarama: <span>2026-03-25 12:06 UTC</span></div>
+                <div class="meta-item">Bulunan: <span>0</span> hisse</div>
+                <div class="meta-item">Gösterilen: <span>0</span></div>
+            </div>
+        </header>
 
-</tbody>
-</table>
-</div>
-<footer>
-<p>Veriler <a href="https://www.tradingview.com" target="_blank">TradingView</a>'dan alınmaktadır.</p>
-<p class="disc">⚠️ Bu tarayıcı yatırım tavsiyesi değildir. Kendi araştırmanızı yapın.</p>
-</footer>
-</div>
+        <div class="filters">
+            <div class="filter-card"><div class="label">F/K ≤</div><div class="value">10</div></div>
+            <div class="filter-card"><div class="label">PD/DD ≤</div><div class="value">2.0</div></div>
+            <div class="filter-card"><div class="label">FD/FAVÖK ≤</div><div class="value">8</div></div>
+            <div class="filter-card"><div class="label">FD/Satışlar ≤</div><div class="value">1.5</div></div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th><th>Ticker</th><th>Şirket</th>
+                        <th>F/K</th><th>PD/DD</th><th>FD/FAVÖK</th><th>FD/Satış</th>
+                        <th>Fiyat</th><th>Hedef ₺</th><th>Potansiyel</th>
+                        <th>Analist</th><th>Teknik</th><th>Skor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="13"><div class="empty-state"><div class="icon">📊</div><div>Kriterlere uyan hisse bulunamadı veya veri çekilemedi.</div></div></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <p>Veriler <a href="https://www.tradingview.com" target="_blank">TradingView</a> ve
+               <a href="https://www.isyatirim.com.tr" target="_blank">İş Yatırım</a>'dan alınmaktadır.</p>
+            <p class="disclaimer">⚠️ Bu tarayıcı yatırım tavsiyesi değildir. Kendi araştırmanızı yapın.</p>
+        </footer>
+    </div>
 </body>
 </html>
